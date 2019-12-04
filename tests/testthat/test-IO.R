@@ -12,6 +12,27 @@ tmpdir <- tempfile()
 
 write.flowSet(fs, tmpdir)
 
+test_that("read.FCS -- column.pattern", {
+  tmp <- GvHD[[1]]
+  idx <- c(1,2)
+  tmp <- tmp[, idx]
+  
+  tmpfile <- tempfile()
+  write.FCS(tmp, tmpfile)  
+  tmp1 <- read.FCS(tmpfile, column.pattern = paste(colnames(tmp), collapse = "|"))
+  
+  
+  expect_equivalent(keyword(tmp1)[["$PAR"]], '2')
+  expect_equivalent(tmp@exprs, tmp1@exprs, tolerance = 3e-08)
+})
+
+test_that("duplicated channels", {
+  dataPath <- "~/rglab/workspace/flowCore/misc/"
+  filename  <- file.path(dataPath, "duplicate_channel.fcs")
+  skip_if_not(file.exists(filename))
+  expect_warning(fr <- read.FCS(filename), "disambiguate channels")
+  expect_equal(colnames(fr)[3:4], c("FL1-H-1", "FL1-H-2"))
+})
 
 test_that("read.FCSheader--multi data segment", {
   dataPath <- "~/rglab/workspace/flowCore/misc/"
