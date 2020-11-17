@@ -45,8 +45,11 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
       
-      - uses: r-lib/actions/setup-tinytex@v1
-      - run: tlmgr --version
+      - name: setup tinytex
+      - run: |
+          install.packages('tinytex')
+          tinytex:::install_yihui_pkgs()
+        shell: Rscript {0}
       
       - name: set token for cytoinstaller(and remotes) to increase github API rate limit
         env:
