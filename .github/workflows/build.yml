@@ -45,8 +45,10 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
       - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-tinytex@v1
       
-      - name: setup tinytex
+      - name: add more tex pkgs
         run: |
           install.packages('tinytex')
           tinytex:::install_yihui_pkgs()
