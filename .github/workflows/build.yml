@@ -47,7 +47,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
       
       - name: setup tinytex
-      - run: |
+        run: |
           install.packages('tinytex')
           tinytex:::install_yihui_pkgs()
         shell: Rscript {0}
